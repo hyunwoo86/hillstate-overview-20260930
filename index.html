@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>힐스테이트 한눈에 보기</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2230;--muted:#667085;--line:#e4e7ec;--car:#2563eb;--car-bg:#eff4ff;--home:#0f766e;--home-bg:#ecfdf8;--in:#067647;--out:#b42318;--warn:#b54708;--warn-bg:#fffaeb;--star:#7a5af8;--star-bg:#f4f3ff;--ok-bg:#ecfdf3;--stage:#f2f4f7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1115;--card:#171a21;--ink:#e6e8ee;--muted:#98a2b3;--line:#2a2f3a;--car:#7aa2ff;--car-bg:#1a2340;--home:#4fd1b5;--home-bg:#12302a;--in:#47cd89;--out:#f97066;--warn:#fdb022;--warn-bg:#2d2412;--star:#b6a4ff;--star-bg:#231d3d;--ok-bg:#10281c;--stage:#1f232c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+main{max-width:1080px;margin:0 auto;padding:28px 16px 48px}
+h1{font-size:26px;margin:0 0 4px}
+h2{font-size:19px;margin:32px 0 12px}
+.sub{color:var(--muted);margin:0 0 20px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.kpi .l{color:var(--muted);font-size:13px}
+.kpi .v{font-size:26px;font-weight:700;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.kpi .d{color:var(--muted);font-size:13px}
+.kpi.star{background:var(--star-bg);border-color:transparent}.kpi.star .v{color:var(--star)}
+.kpi.ok .v{color:var(--in)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;color:var(--muted);font-size:13px;margin:0 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;background:var(--card)}
+.num{text-align:right;white-space:nowrap}
+.date b{display:block;white-space:nowrap}.date span{color:var(--muted);font-size:12px}
+.muted{color:var(--muted);font-size:13px}
+tr.stage td{background:var(--stage);font-weight:700;font-size:14px;padding-top:12px}
+tr.stage.car td{color:var(--car)}tr.stage.home td{color:var(--home)}
+tr.check td{background:var(--ok-bg);font-weight:600}
+tr.total td{font-weight:700}
+tr.star td{background:var(--star-bg)}tr.star .num{color:var(--star);font-weight:700}
+tr.key td{background:var(--warn-bg);font-weight:600}
+tr.end td{background:var(--ok-bg);font-weight:700}
+.in{color:var(--in);font-weight:600}.out{color:var(--out);font-weight:600}.pass{color:var(--muted);font-weight:600}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.box h3{margin:0 0 8px;font-size:15px}
+.box ul,.box ol{margin:0;padding-left:20px}.box li{margin:4px 0}
+.box.warn{background:var(--warn-bg);border-color:transparent}.box.warn h3{color:var(--warn)}
+.box.star{background:var(--star-bg);border-color:transparent}.box.star h3{color:var(--star)}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;min-width:120px;margin:6px 0 2px}.bar i{display:block;height:100%;background:var(--star)}
+.calc{margin-bottom:12px}.inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 14px}
+.inputs label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600}.inputs small{color:var(--muted);font-weight:400}
+.unit{display:flex;align-items:center;gap:6px}.unit input{flex:1;min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px}.unit em{font-style:normal;color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0}.actions button{padding:7px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.kpis.small{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.kpis.small .v{font-size:21px}
+footer{margin-top:28px;color:var(--muted);font-size:12px}
+@media print{body{background:#fff;font-size:11px}main{padding:0}.box,.kpi{break-inside:avoid;border-color:#ccc}tr{break-inside:avoid}h2{break-after:avoid}}
+</style>
+</head>
+<body>
+<main>
+<h1>힐스테이트 · 쏘렌토 한눈에 보기</h1>
+<p class="sub">2026-09-30 기준 · 쏘렌토 5,385만원 · 출고 2026-11 초 · 청약 출고 전 해지 · 가전·리모델링 4천 · 현우 키움 2029-03 매도(현재가) · 비상금 2천 · 증여세 없음</p>
+
+<div class="kpis">
+ <div class="kpi ok"><div class="l">중도금 6회(2028-10-20)까지 새로 모을 돈</div><div class="v">0원</div><div class="d">지금 있는 통장·만기금·대출로 모두 납부</div></div>
+ <div class="kpi star"><div class="l">⭐ 입주까지 월급으로 새로 모을 돈</div><div class="v">76,437,152원</div><div class="d">2026-10 ~ 2029-05 · 차 유지비 뺀 순저축</div></div>
+ <div class="kpi"><div class="l">매달 모을 돈</div><div class="v">월 100만 → 293만</div><div class="d">복직 전(~2027-06) 월 100만 · 복직 후(2027-07~) 월 약 293만</div></div>
+ <div class="kpi"><div class="l">그중 입주에 꼭 필요한 돈</div><div class="v">16,437,152원</div><div class="d">확장·옵션 잔금 포함 · 나머지 6천은 가전·비상금</div></div>
+</div>
+
+<h2>전체 흐름 (차 계약부터 입주 정산까지)</h2>
+<div class="legend"><span class="in">➕ 들어오는 돈</span><span class="out">➖ 나가는 돈</span><span class="pass">➕➖ 은행이 직접 처리 (우리 통장을 거치지 않음)</span></div>
+<div class="card"><div class="scroll"><table>
+<thead><tr><th>날짜 (의미)</th><th>무엇을</th><th>어느 통장에서 / 어디서</th><th class="num">금액</th></tr></thead>
+<tbody>
+<tr class="stage car"><td colspan="4">🚗 1단계. 쏘렌토 계약</td></tr>
+<tr><td class="date"><b>2026-09-30</b><span>(차량 계약)</span></td><td>계약금</td><td>현우 케이뱅크 커플 …3323</td><td class="num out">➖ 100,000</td></tr>
+
+<tr class="stage home"><td colspan="4">🏠 2단계. 중도금 2회 (1억 1,467만원을 두 번에 나눠 냄)</td></tr>
+<tr><td class="date"><b>2026-10-20</b><span>(중도금 2회 납부기한)</span></td><td>중도금 2회 먼저</td><td>현우 케이뱅크 정기예금 C …4068 <span class="muted">(10/15 전후 만기 · 확인 필요)</span></td><td class="num out">➖ 13,130,880</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 케이뱅크 커플 …3323</td><td class="num out">➖ 1,681,121</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 한국투자 …6401</td><td class="num out">➖ 21,221</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>윤혜 케이뱅크 파킹 …6779</td><td class="num out">➖ 33,134,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>윤혜 KB 모니모 …2072</td><td class="num out">➖ 5,264,621</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>윤혜 새마을금고 입출금 …2402</td><td class="num out">➖ 938,955</td></tr>
+<tr><td class="date"><b>2026-10-28</b><span>(케이뱅크 B·D 예금 만기일)</span></td><td>중도금 2회 나머지</td><td>현우 케이뱅크 정기예금 B …5917</td><td class="num out">➖ 60,379,667</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 케이뱅크 정기예금 D …9866 <span class="muted">(남은 994만원은 차로)</span></td><td class="num out">➖ 119,535</td></tr>
+
+<tr class="stage car"><td colspan="4">🚗 3단계. 쏘렌토 잔금 (계약 후 4~6주)</td></tr>
+<tr><td class="date"><b>2026-11 초</b><span>(쏘렌토 출고 예상)</span></td><td>차 잔금·등록비</td><td>현우 케이뱅크 정기예금 F <span class="muted">(부모님 증여금)</span></td><td class="num out">➖ 39,948,480</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 케이뱅크 정기예금 D …9866 <span class="muted">(중도금 내고 남은 돈)</span></td><td class="num out">➖ 9,943,749</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 KB 청약 …9009 해지금 <span class="muted">(출고 전 해지)</span></td><td class="num out">➖ 3,861,331</td></tr>
+
+<tr class="stage home"><td colspan="4">🏠 4단계. 중도금 3~6회</td></tr>
+<tr><td class="date"><b>2027-03-22</b><span>(중도금 3회)</span></td><td>중도금 3회</td><td>은행 집단대출 <span class="muted">(은행이 직접 냄)</span></td><td class="num pass">➖ 114,670,000</td></tr>
+<tr><td class="date"><b>2027-10-20</b><span>(중도금 4회)</span></td><td>중도금 4회</td><td>은행 집단대출 <span class="muted">(은행이 직접 냄)</span></td><td class="num pass">➖ 114,670,000</td></tr>
+<tr><td class="date"><b>2028-03-20</b><span>(중도금 5회)</span></td><td>중도금 5회</td><td>현우 케이뱅크 정기예금 A …1256 <span class="muted">(2027-04-29 만기)</span></td><td class="num out">➖ 114,670,000</td></tr>
+<tr><td class="date"><b>2028-10-20</b><span>(중도금 6회)</span></td><td>중도금 6회</td><td>현우 케이뱅크 A …1256 남은 돈</td><td class="num out">➖ 10,929,665</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 케이뱅크 정기예금 E …8316 <span class="muted">(2027-05-04 만기)</span></td><td class="num out">➖ 4,900,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 SBI 회전1 …6049 <span class="muted">(2027-03-06 만기)</span></td><td class="num out">➖ 7,364,650</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 SBI 회전2 …5671 <span class="muted">(2027-12-11 만기)</span></td><td class="num out">➖ 5,000,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 SBI 복리 …5902 <span class="muted">(2028-05-25 만기)</span></td><td class="num out">➖ 16,000,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 KB 장기주택마련저축보험 …5264 <span class="muted">(2027-07-16 만기)</span></td><td class="num out">➖ 22,800,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>윤혜 새마을금고 예금 …4886 <span class="muted">(2027-06-17 만기)</span></td><td class="num out">➖ 30,000,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>〃</td><td>현우 KB 청약 …9009 남은 돈</td><td class="num out">➖ 17,675,685</td></tr>
+<tr class="check"><td colspan="4">✅ 여기까지는 지금 있는 돈과 대출로 모두 해결 — 새로 모을 돈 0원</td></tr>
+
+<tr class="stage home"><td colspan="4">💰 5단계. 입주 전에 입주자금 통장으로 모으기</td></tr>
+<tr><td class="date"><b>2029-03</b><span>(키움 매도 기한)</span></td><td>주식 팔기 <span class="muted">(원래 차량용 · 회복분은 보너스)</span></td><td>현우 키움 …3710</td><td class="num in">➕ 27,984,141</td></tr>
+<tr><td class="date"><b>2029-05</b><span>(잔금 1개월 전)</span></td><td>주식·금 팔기</td><td>윤혜 토스 주식 3,743만 + 키움 주식 674만 + 신한 금현물 456만</td><td class="num in">➕ 48,734,200</td></tr>
+<tr><td class="date"><b>2029-05</b><span>(잔금 1개월 전)</span></td><td>추가 증여 받기 <span class="muted">(증여세 없음)</span></td><td>부모님 → 현우 명의 계좌</td><td class="num in">➕ 40,000,000</td></tr>
+<tr><td class="date"><b>2029-05</b><span>(잔금 1개월 전)</span></td><td>남은 돈 옮기기</td><td>현우 KB 청약 …9009 남은 돈</td><td class="num in">➕ 1,462,984</td></tr>
+<tr class="star"><td class="date"><b>2026-10 ~ 2029-05</b><span>(저축 기간)</span></td><td>⭐ 월급으로 새로 모은 돈</td><td>복직 전 월 100만 → 복직 후 월 약 293만</td><td class="num">➕ 76,437,152</td></tr>
+<tr class="total"><td colspan="3">잔금일 전에 통장에 있어야 할 돈</td><td class="num">194,618,477</td></tr>
+
+<tr class="stage home"><td colspan="4">🔑 6단계. 입주 잔금일</td></tr>
+<tr><td class="date"><b>2029-06-30</b><span>(입주 잔금일, 계획용)</span></td><td>주담대 실행 → 중도금 대출 갚기</td><td>은행이 직접 처리</td><td class="num pass">➕➖ 229,350,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>주담대 나머지 → 분양잔금 일부</td><td>은행이 분양사에 직접</td><td class="num pass">➕➖ 229,330,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>분양잔금 나머지</td><td>입주자금 통장 → 분양사</td><td class="num out">➖ 114,680,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>후불 중도금 이자 <span class="muted">(3·4회 대출 이자)</span></td><td>입주자금 통장 → 분양사 또는 은행</td><td class="num out">➖ 17,129,452</td></tr>
+<tr><td class="date"><b>〃</b></td><td>발코니 확장 잔금 (80%)</td><td>입주자금 통장 → 확장 계약 계좌</td><td class="num out">➖ 9,760,000</td></tr>
+<tr><td class="date"><b>〃</b></td><td>유상옵션 잔금 (80%)</td><td>입주자금 통장 → 옵션 계약 계좌</td><td class="num out">➖ 23,816,000</td></tr>
+<tr class="key"><td colspan="3">🔑 완납 → 입주증 → 열쇠 <span class="muted">(통장에 남은 돈)</span></td><td class="num">29,233,025</td></tr>
+
+<tr class="stage home"><td colspan="4">🏡 7단계. 입주 후 정산</td></tr>
+<tr><td class="date"><b>2029-06-30</b><span>(월세집 퇴거일)</span></td><td>월세 보증금 돌려받기</td><td>집주인 → 입주자금 통장</td><td class="num in">➕ 80,000,000</td></tr>
+<tr><td class="date"><b>~2029-08-29</b><span>(잔금일로부터 60일 안)</span></td><td>취득세 <span class="muted">(3.3% 가정)</span></td><td>법무사 / 구청</td><td class="num out">➖ 39,226,110</td></tr>
+<tr><td class="date"><b>〃</b></td><td>등기·법무·근저당</td><td>법무사</td><td class="num out">➖ 5,006,915</td></tr>
+<tr><td class="date"><b>2029-07</b><span>(입주 직후)</span></td><td>이사비</td><td>이사업체</td><td class="num out">➖ 5,000,000</td></tr>
+<tr><td class="date"><b>2029-07</b><span>(입주 전후)</span></td><td>가전·가구·리모델링</td><td>업체별</td><td class="num out">➖ 40,000,000</td></tr>
+<tr class="end"><td class="date"><b>2029-07</b><span>(정산 끝)</span></td><td>🛟 남은 돈 = 비상금</td><td>윤혜 KB 모니모 …2072로 옮겨 보관</td><td class="num">20,000,000</td></tr>
+</tbody></table></div></div>
+
+<h2>매월 모으는 돈과 누적 금액</h2>
+<div class="box calc">
+ <div class="inputs">
+  <label>복직 전 월 저축 <small>(2026-10~2027-06, 9개월)</small><span class="unit"><input id="pre" type="number" min="0" step="10" value="100"><em>만원</em></span></label>
+  <label>복직 후 월 저축 <small>(2027-07~2029-05, 23개월 · 비우면 자동 계산)</small><span class="unit"><input id="post" type="number" min="0" step="10" placeholder="자동"><em>만원</em></span></label>
+  <label>가전·가구·리모델링<span class="unit"><input id="furn" type="number" min="0" step="100" value="4000"><em>만원</em></span></label>
+  <label>남길 비상금<span class="unit"><input id="reserve" type="number" min="0" step="100" value="2000"><em>만원</em></span></label>
+  <label>현우 키움 …3710 매도 예상액 <small>(현재가 2,798만 · 본전 약 5,300만)</small><span class="unit"><input id="kiwoom" type="number" min="0" step="100" value="2798.4141"><em>만원</em></span></label>
+  <label>빠진 비용 대비 <small>(선수관리비·대출 부대비 등)</small><span class="unit"><input id="extra" type="number" min="0" step="50" value="0"><em>만원</em></span></label>
+ </div>
+ <div class="actions"><button type="button" id="resetCalc">기본값으로</button><span class="muted">차 유지비를 뺀 순저축 기준 · 이 브라우저에 입력값이 저장됩니다</span></div>
+ <div id="calcSummary" class="kpis small"></div>
+</div>
+<div class="card"><div class="scroll"><table>
+<thead><tr><th>월 (의미)</th><th class="num">이번 달 저축</th><th class="num">누적 금액</th><th>목표 대비</th></tr></thead>
+<tbody id="monthRows"></tbody></table></div></div>
+<script>
+(()=>{
+ // 목표 = 입주 필수 부족분(키움 현재가 기준 16,437,152) + 키움 현재가 − 키움 예상액 + 가전 + 비상금 + 빠진 비용
+ const BASE=16437152, KW_NOW=27984141, KEY='hs-glance-calc-v1';
+ const ids=['pre','post','furn','reserve','kiwoom','extra'], el=Object.fromEntries(ids.map(i=>[i,document.getElementById(i)]));
+ const defaults=Object.fromEntries(ids.map(i=>[i,el[i].value]));
+ const won=n=>Math.round(n).toLocaleString('ko-KR'), man=n=>(Math.round(n/10000)).toLocaleString('ko-KR')+'만';
+ const months=[];for(let y=2026,m=10,i=0;i<32;i++){months.push(`${y}-${String(m).padStart(2,'0')}`);if(++m>12){m=1;y++;}}
+ const notes={'2026-10':'저축 시작 · 외벌이','2027-03':'중도금 3회(대출) 달','2027-06':'복직 전 마지막 달','2027-07':'윤혜 복직','2027-10':'중도금 4회(대출) 달','2028-03':'중도금 5회(A예금) 달','2028-10':'중도금 6회(기존 예금) 달','2029-03':'키움 매도 기한','2029-05':'잔금 1개월 전 · 저축 끝'};
+ try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');ids.forEach(i=>{if(v[i]!==undefined)el[i].value=v[i];});}catch(e){}
+ const val=i=>{const x=parseFloat(el[i].value);return isFinite(x)&&x>=0?x*10000:null;};
+ function render(){
+  try{localStorage.setItem(KEY,JSON.stringify(Object.fromEntries(ids.map(i=>[i,el[i].value]))));}catch(e){}
+  const pre=val('pre')??0, furn=val('furn')??0, reserve=val('reserve')??0, kw=val('kiwoom')??0, extra=val('extra')??0;
+  const rawEss=BASE+KW_NOW-kw+extra, essential=Math.max(0,rawEss), goal=Math.max(0,rawEss+furn+reserve); // 키움 회복분이 필수액을 넘으면 가전·비상금 목표에서 차감
+  const auto=val('post')===null, post=auto?Math.max(0,Math.ceil((goal-9*pre)/23)):val('post');
+  const amts=months.map((_,i)=>i<9?pre:post); if(auto&&post>0)amts[31]=Math.max(0,goal-amts.slice(0,31).reduce((a,b)=>a+b,0));
+  const total=amts.reduce((a,b)=>a+b,0), gap=total-goal;
+  const marks=[[essential,'✅ 입주 가능 최소액'],[Math.min(goal,essential+reserve),'🛟 + 비상금 확보'],[goal,'⭐ 목표 달성']];
+  let cum=0,rows='',year='',hit=new Set(),first={};
+  months.forEach((mo,i)=>{cum+=amts[i];if(mo.slice(0,4)!==year){year=mo.slice(0,4);rows+=`<tr class="stage home"><td colspan="4">${year}년</td></tr>`;}
+   const tags=[];marks.forEach(([k,t],j)=>{if(goal>0&&cum>=k&&!hit.has(j)){hit.add(j);tags.push(t);first[j]=mo;}});
+   const pct=goal>0?Math.min(100,cum/goal*100):100,n=notes[mo]||'';
+   rows+=`<tr${tags.length?' class="star"':''}><td class="date"><b>${mo}</b><span>${n?'('+n+')':''}</span></td><td class="num">${won(amts[i])}</td><td class="num"><b>${won(cum)}</b></td><td><div class="bar"><i style="width:${pct.toFixed(1)}%"></i></div><span class="muted">${pct.toFixed(0)}%${tags.length?' · '+tags.join(' · '):''}</span></td></tr>`;});
+  document.getElementById('monthRows').innerHTML=rows;
+  const res=gap>=0?`<div class="v" style="color:var(--in)">+${man(gap)}</div><div class="d">목표보다 여유</div>`:`<div class="v" style="color:var(--out)">−${man(-gap)}</div><div class="d">모자람 → 가전·비상금 줄이기, 키움 회복분, 토스증권 일부 순서로 대비</div>`;
+  const reach=j=>first[j]?first[j]:'2029-05까지 미도달';
+  document.getElementById('calcSummary').innerHTML=
+   `<div class="kpi star"><div class="l">목표 (2029-05까지 모을 돈)</div><div class="v">${won(goal)}원</div><div class="d">꼭 필요 ${rawEss<0?'0 (키움 여유 '+man(-rawEss)+' 차감)':man(essential)} + 가전 ${man(furn)} + 비상금 ${man(reserve)}</div></div>`+
+   `<div class="kpi"><div class="l">복직 후 월 저축 ${auto?'(자동 계산)':'(입력값)'}</div><div class="v">${man(post)}원</div><div class="d">복직 전 월 ${man(pre)} × 9개월 후</div></div>`+
+   `<div class="kpi"><div class="l">2029-05 누적 예상</div><div class="v">${won(total)}원</div><div class="d">32개월 합계</div></div>`+
+   `<div class="kpi"><div class="l">목표 대비</div>${res}</div>`+
+   `<div class="kpi"><div class="l">✅ 입주 가능 최소액(${man(essential)}) 도달</div><div class="v" style="font-size:20px">${reach(0)}</div><div class="d">🛟 비상금까지 ${reach(1)} · ⭐ 목표 ${reach(2)}</div></div>`;
+ }
+ ids.forEach(i=>el[i].addEventListener('input',render));
+ document.getElementById('resetCalc').addEventListener('click',()=>{ids.forEach(i=>el[i].value=defaults[i]);render();});
+ render();
+})();
+</script>
+
+<h2>꼭 기억할 것</h2>
+<div class="grid2">
+ <div class="box star"><h3>⭐ 3가지</h3><ol>
+  <li><b>2028-10-20 (중도금 6회)까지는 걱정 없습니다.</b> 지금 있는 통장과 대출로 모두 냅니다.</li>
+  <li><b>앞으로 모을 돈은 7,644만원 하나입니다.</b> 복직 전 월 100만, 복직 후 월 약 293만. 그중 <b>입주에 꼭 필요한 건 1,644만원</b>이고, 6,000만원은 가전·비상금이라 덜 모이면 줄이면 됩니다.</li>
+  <li><b>모자라면:</b> 키움 회복분 → 가전 줄이기 → 토스증권 일부(최대 약 3천). IRP·연금은 쓰지 않습니다.</li>
+ </ol></div>
+ <div class="box warn"><h3>⚠ 지금 확인할 것</h3><ol>
+  <li><b>케이뱅크 C예금 …4068 정확한 만기일</b> (2026-10-20 전이어야 함)</li>
+  <li><b>기아:</b> 출고일, 잔금 마감일, 카드 결제 가능 금액</li>
+  <li><b>KB국민:</b> 청약 …9009 조기 해지 가능 여부와 추징</li>
+  <li><b>은행:</b> 맞벌이 기준 주담대 4.6억 사전 상담</li>
+ </ol></div>
+ <div class="box"><h3>🔒 쓰지 않는 돈</h3><ul>
+  <li>현우 토스증권 · IRP · 연금저축 · ISA (노후)</li>
+  <li>윤혜 퇴직연금 · 연금저축 (노후)</li>
+  <li>윤혜 청년미래적금 (2029-08-06 만기 · 입주 후)</li>
+ </ul></div>
+ <div class="box"><h3>➕ 아직 빠진 비용 (약 50만~200만원)</h3><ul>
+  <li>선수관리비 약 50만~100만원</li>
+  <li>주담대 인지세·보증료 (수십만원)</li>
+  <li>중도금 2회 분할 지연 비용 · 청약 해지 추징 (미정)</li>
+  <li>생기면 비상금에서 나갑니다</li>
+ </ul></div>
+</div>
+
+<footer>계획용 추정입니다. 실제 저축능력, 대출 승인, 세금 고지액, 입주일(분양사 통보)은 확인 전입니다. 상세 계산은 같은 폴더의 「힐스테이트_중도금_입주_타임라인.html」에 있고, 그 파일은 현우 키움을 0원(제외)으로 계산해서 필요액이 다릅니다. 인쇄: Ctrl+P.</footer>
+</main>
+</body>
+</html>
