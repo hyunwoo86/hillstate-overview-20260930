@@ -56,13 +56,13 @@ footer{margin-top:28px;color:var(--muted);font-size:12px}
 <body>
 <main>
 <h1>힐스테이트 · 쏘렌토 한눈에 보기</h1>
-<p class="sub">2026-09-30 기준 · 쏘렌토 5,385만원 · 출고 2026-11 초 · 청약 출고 전 해지 · 가전·리모델링 4천 · 현우 키움 2029-03 매도(현재가) · 비상금 2천 · 증여세 없음</p>
+<p class="sub">2026-09-30 기준 · 쏘렌토 5,385만원 · 출고 2026-11 초 · 청약 출고 전 해지 · <span id="dSub">가전·리모델링 4천 · 현우 키움 2029-03 매도(현재가) · 비상금 2천</span> · 증여세 없음</p>
 
 <div class="kpis">
  <div class="kpi ok"><div class="l">중도금 6회(2028-10-20)까지 새로 모을 돈</div><div class="v">0원</div><div class="d">지금 있는 통장·만기금·대출로 모두 납부</div></div>
- <div class="kpi star"><div class="l">⭐ 입주까지 월급으로 새로 모을 돈</div><div class="v">76,437,152원</div><div class="d">2026-10 ~ 2029-05 · 차 유지비 뺀 순저축</div></div>
- <div class="kpi"><div class="l">매달 모을 돈</div><div class="v">월 100만 → 293만</div><div class="d">복직 전(~2027-06) 월 100만 · 복직 후(2027-07~) 월 약 293만</div></div>
- <div class="kpi"><div class="l">그중 입주에 꼭 필요한 돈</div><div class="v">16,437,152원</div><div class="d">확장·옵션 잔금 포함 · 나머지 6천은 가전·비상금</div></div>
+ <div class="kpi star"><div class="l">⭐ 입주까지 월급으로 새로 모을 돈</div><div class="v" id="dGoal">76,437,152원</div><div class="d">2026-10 ~ 2029-05 · 차 유지비 뺀 순저축</div></div>
+ <div class="kpi"><div class="l">매달 모을 돈</div><div class="v" id="dMonthly">월 100만 → 293만</div><div class="d" id="dMonthlyDesc">복직 전(~2027-06) 월 100만 · 복직 후(2027-07~) 월 약 293만</div></div>
+ <div class="kpi"><div class="l">그중 입주에 꼭 필요한 돈</div><div class="v" id="dEss">16,437,152원</div><div class="d" id="dEssDesc">확장·옵션 잔금 포함 · 나머지 6천은 가전·비상금</div></div>
 </div>
 
 <h2>전체 흐름 (차 계약부터 입주 정산까지)</h2>
@@ -103,12 +103,12 @@ footer{margin-top:28px;color:var(--muted);font-size:12px}
 <tr class="check"><td colspan="4">✅ 여기까지는 지금 있는 돈과 대출로 모두 해결 — 새로 모을 돈 0원</td></tr>
 
 <tr class="stage home"><td colspan="4">💰 5단계. 입주 전에 입주자금 통장으로 모으기</td></tr>
-<tr><td class="date"><b>2029-03</b><span>(키움 매도 기한)</span></td><td>주식 팔기 <span class="muted">(원래 차량용 · 회복분은 보너스)</span></td><td>현우 키움 …3710</td><td class="num in">➕ 27,984,141</td></tr>
+<tr><td class="date"><b>2029-03</b><span>(키움 매도 기한)</span></td><td>주식 팔기 <span class="muted">(원래 차량용 · 회복분은 보너스)</span></td><td>현우 키움 …3710</td><td class="num in" id="fKw">➕ 27,984,141</td></tr>
 <tr><td class="date"><b>2029-05</b><span>(잔금 1개월 전)</span></td><td>주식·금 팔기</td><td>윤혜 토스 주식 3,743만 + 키움 주식 674만 + 신한 금현물 456만</td><td class="num in">➕ 48,734,200</td></tr>
 <tr><td class="date"><b>2029-05</b><span>(잔금 1개월 전)</span></td><td>추가 증여 받기 <span class="muted">(증여세 없음)</span></td><td>부모님 → 현우 명의 계좌</td><td class="num in">➕ 40,000,000</td></tr>
 <tr><td class="date"><b>2029-05</b><span>(잔금 1개월 전)</span></td><td>남은 돈 옮기기</td><td>현우 KB 청약 …9009 남은 돈</td><td class="num in">➕ 1,462,984</td></tr>
-<tr class="star"><td class="date"><b>2026-10 ~ 2029-05</b><span>(저축 기간)</span></td><td>⭐ 월급으로 새로 모은 돈</td><td>복직 전 월 100만 → 복직 후 월 약 293만</td><td class="num">➕ 76,437,152</td></tr>
-<tr class="total"><td colspan="3">잔금일 전에 통장에 있어야 할 돈</td><td class="num">194,618,477</td></tr>
+<tr class="star"><td class="date"><b>2026-10 ~ 2029-05</b><span>(저축 기간)</span></td><td>⭐ 월급으로 새로 모은 돈</td><td id="fSaveDesc">복직 전 월 100만 → 복직 후 월 약 293만</td><td class="num" id="fSave">➕ 76,437,152</td></tr>
+<tr class="total"><td colspan="3">잔금일 전에 통장에 있어야 할 돈</td><td class="num" id="fPre">194,618,477</td></tr>
 
 <tr class="stage home"><td colspan="4">🔑 6단계. 입주 잔금일</td></tr>
 <tr><td class="date"><b>2029-06-30</b><span>(입주 잔금일, 계획용)</span></td><td>주담대 실행 → 중도금 대출 갚기</td><td>은행이 직접 처리</td><td class="num pass">➕➖ 229,350,000</td></tr>
@@ -117,15 +117,16 @@ footer{margin-top:28px;color:var(--muted);font-size:12px}
 <tr><td class="date"><b>〃</b></td><td>후불 중도금 이자 <span class="muted">(3·4회 대출 이자)</span></td><td>입주자금 통장 → 분양사 또는 은행</td><td class="num out">➖ 17,129,452</td></tr>
 <tr><td class="date"><b>〃</b></td><td>발코니 확장 잔금 (80%)</td><td>입주자금 통장 → 확장 계약 계좌</td><td class="num out">➖ 9,760,000</td></tr>
 <tr><td class="date"><b>〃</b></td><td>유상옵션 잔금 (80%)</td><td>입주자금 통장 → 옵션 계약 계좌</td><td class="num out">➖ 23,816,000</td></tr>
-<tr class="key"><td colspan="3">🔑 완납 → 입주증 → 열쇠 <span class="muted">(통장에 남은 돈)</span></td><td class="num">29,233,025</td></tr>
+<tr class="key"><td colspan="3">🔑 완납 → 입주증 → 열쇠 <span class="muted">(통장에 남은 돈)</span></td><td class="num" id="fKey">29,233,025</td></tr>
 
 <tr class="stage home"><td colspan="4">🏡 7단계. 입주 후 정산</td></tr>
 <tr><td class="date"><b>2029-06-30</b><span>(월세집 퇴거일)</span></td><td>월세 보증금 돌려받기</td><td>집주인 → 입주자금 통장</td><td class="num in">➕ 80,000,000</td></tr>
 <tr><td class="date"><b>~2029-08-29</b><span>(잔금일로부터 60일 안)</span></td><td>취득세 <span class="muted">(3.3% 가정)</span></td><td>법무사 / 구청</td><td class="num out">➖ 39,226,110</td></tr>
 <tr><td class="date"><b>〃</b></td><td>등기·법무·근저당</td><td>법무사</td><td class="num out">➖ 5,006,915</td></tr>
 <tr><td class="date"><b>2029-07</b><span>(입주 직후)</span></td><td>이사비</td><td>이사업체</td><td class="num out">➖ 5,000,000</td></tr>
-<tr><td class="date"><b>2029-07</b><span>(입주 전후)</span></td><td>가전·가구·리모델링</td><td>업체별</td><td class="num out">➖ 40,000,000</td></tr>
-<tr class="end"><td class="date"><b>2029-07</b><span>(정산 끝)</span></td><td>🛟 남은 돈 = 비상금</td><td>윤혜 KB 모니모 …2072로 옮겨 보관</td><td class="num">20,000,000</td></tr>
+<tr id="fExtraRow" hidden><td class="date"><b>2029-07</b><span>(입주 전후)</span></td><td>빠진 비용 대비 <span class="muted">(선수관리비·대출 부대비 등)</span></td><td>관리사무소 / 은행</td><td class="num out" id="fExtra">➖ 0</td></tr>
+<tr><td class="date"><b>2029-07</b><span>(입주 전후)</span></td><td>가전·가구·리모델링</td><td>업체별</td><td class="num out" id="fFurn">➖ 40,000,000</td></tr>
+<tr class="end"><td class="date"><b>2029-07</b><span>(정산 끝)</span></td><td>🛟 남은 돈 = 비상금</td><td id="fEndDesc">윤혜 KB 모니모 …2072로 옮겨 보관</td><td class="num" id="fEnd">20,000,000</td></tr>
 </tbody></table></div></div>
 
 <h2>매월 모으는 돈과 누적 금액</h2>
@@ -169,6 +170,26 @@ footer{margin-top:28px;color:var(--muted);font-size:12px}
    const pct=goal>0?Math.min(100,cum/goal*100):100,n=notes[mo]||'';
    rows+=`<tr${tags.length?' class="star"':''}><td class="date"><b>${mo}</b><span>${n?'('+n+')':''}</span></td><td class="num">${won(amts[i])}</td><td class="num"><b>${won(cum)}</b></td><td><div class="bar"><i style="width:${pct.toFixed(1)}%"></i></div><span class="muted">${pct.toFixed(0)}%${tags.length?' · '+tags.join(' · '):''}</span></td></tr>`;});
   document.getElementById('monthRows').innerHTML=rows;
+  // 위 요약 카드·흐름표·기억할 것도 같은 옵션으로 갱신 (흐름표는 실제 누적 예상액 total 기준)
+  const $=id=>document.getElementById(id), set=(id,t)=>{const e=$(id);if(e)e.textContent=t;};
+  const P=48734200+40000000+1462984, DAY=165385452, AFTER=39226110+5006915+5000000;
+  const preCash=kw+P+total, afterKey=preCash-DAY, end=afterKey+80000000-AFTER-extra-furn;
+  set('dSub',`가전·리모델링 ${man(furn)} · 현우 키움 2029-03 매도 ${man(kw)} · 비상금 ${man(reserve)}`);
+  set('dGoal',won(goal)+'원');
+  set('dMonthly',`월 ${man(pre)} → ${man(post)}`);
+  set('dMonthlyDesc',`복직 전(~2027-06) 월 ${man(pre)} · 복직 후(2027-07~) 월 ${auto?'약 ':''}${man(post)}${auto?'':' (입력값)'}`);
+  set('dEss',won(essential)+'원');
+  set('dEssDesc',`확장·옵션 잔금 포함 · 나머지 ${man(Math.max(0,goal-essential))}은 가전·비상금`);
+  set('fKw','➕ '+won(kw));
+  set('fSaveDesc',`복직 전 월 ${man(pre)} → 복직 후 월 ${man(post)} (2029-05까지 누적 예상)`);
+  set('fSave','➕ '+won(total));
+  set('fPre',won(preCash));
+  set('fKey',won(afterKey)); $('fKey').style.color=afterKey<0?'var(--out)':'';
+  $('fExtraRow').hidden=!(extra>0); set('fExtra','➖ '+won(extra));
+  set('fFurn','➖ '+won(furn));
+  set('fEnd',won(end)); $('fEnd').style.color=end<reserve?'var(--out)':'';
+  set('fEndDesc',end<0?`⚠ ${won(-end)}원 모자람 → 가전 줄이기·키움 회복분·토스증권 일부로 대비`:end<reserve?`⚠ 목표 비상금 ${man(reserve)}보다 ${man(reserve-end)} 적음 · 윤혜 KB 모니모 …2072 보관`:'윤혜 KB 모니모 …2072로 옮겨 보관');
+  if($('mSave'))$('mSave').innerHTML=`<b>앞으로 모을 돈은 ${man(goal)}원 하나입니다.</b> 복직 전 월 ${man(pre)}, 복직 후 월 ${auto?'약 ':''}${man(post)}. 그중 <b>입주에 꼭 필요한 건 ${man(essential)}원</b>이고, ${man(Math.max(0,goal-essential))}원은 가전·비상금이라 덜 모이면 줄이면 됩니다.`;
   const res=gap>=0?`<div class="v" style="color:var(--in)">+${man(gap)}</div><div class="d">목표보다 여유</div>`:`<div class="v" style="color:var(--out)">−${man(-gap)}</div><div class="d">모자람 → 가전·비상금 줄이기, 키움 회복분, 토스증권 일부 순서로 대비</div>`;
   const reach=j=>first[j]?first[j]:'2029-05까지 미도달';
   document.getElementById('calcSummary').innerHTML=
@@ -180,7 +201,8 @@ footer{margin-top:28px;color:var(--muted);font-size:12px}
  }
  ids.forEach(i=>el[i].addEventListener('input',render));
  document.getElementById('resetCalc').addEventListener('click',()=>{ids.forEach(i=>el[i].value=defaults[i]);render();});
- render();
+ // '꼭 기억할 것'은 이 스크립트 뒤에 있으므로 문서를 다 읽은 뒤 첫 계산
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
 })();
 </script>
 
@@ -188,7 +210,7 @@ footer{margin-top:28px;color:var(--muted);font-size:12px}
 <div class="grid2">
  <div class="box star"><h3>⭐ 3가지</h3><ol>
   <li><b>2028-10-20 (중도금 6회)까지는 걱정 없습니다.</b> 지금 있는 통장과 대출로 모두 냅니다.</li>
-  <li><b>앞으로 모을 돈은 7,644만원 하나입니다.</b> 복직 전 월 100만, 복직 후 월 약 293만. 그중 <b>입주에 꼭 필요한 건 1,644만원</b>이고, 6,000만원은 가전·비상금이라 덜 모이면 줄이면 됩니다.</li>
+  <li id="mSave"><b>앞으로 모을 돈은 7,644만원 하나입니다.</b> 복직 전 월 100만, 복직 후 월 약 293만. 그중 <b>입주에 꼭 필요한 건 1,644만원</b>이고, 6,000만원은 가전·비상금이라 덜 모이면 줄이면 됩니다.</li>
   <li><b>모자라면:</b> 키움 회복분 → 가전 줄이기 → 토스증권 일부(최대 약 3천). IRP·연금은 쓰지 않습니다.</li>
  </ol></div>
  <div class="box warn"><h3>⚠ 지금 확인할 것</h3><ol>
